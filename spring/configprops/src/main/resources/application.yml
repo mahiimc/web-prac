@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: configprops
+
+email:
+  user: example@mail.com
+  password: secret
+  configuration:
+    smtp-server: smtp-server-address
+    maxBodySize: 250kb
+    subject: Random Subject
