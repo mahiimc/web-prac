@@ -1,4 +1,4 @@
-# 📊 Benchmark Comparison
+# 📊 Benchmark Comparison  for blocking HTTP Calls using Feign client
 
 | Metric                  | `/report/blocking`   | `/report/platform`     | `/report/virtual`      |
 |-------------------------|----------------------|------------------------|------------------------|
@@ -18,3 +18,19 @@
 | **98% requests within** | 2420 ms              | **17 ms**              | 15 ms                  |
 | **99% requests within** | 2603 ms              | **20 ms**              | 15 ms                  |
 | **100% longest request**| 5363 ms              | 31 ms                  | **18 ms**              |
+
+
+
+For DB calls: 
+
+| Metric                 | Blocking Threads | Platform Threads | Virtual Threads |
+|------------------------|------------------|------------------|-----------------|
+| **Total Requests**     | 300              | 300              | 300             |
+| **Concurrency Level**  | 100              | 100              | 100             |
+| **Total Time (s)**     | 62.934           | 0.058            | 0.039           |
+| **Requests per Second**| 4.77 [#/sec]     | 5,153.58 [#/sec] | 7,739.54 [#/sec]|
+| **Time per Request (ms)** | 20,977.844   | 19.404           | 12.921          |
+| **Mean Processing (ms)** | 17,501         | 12               | 8               |
+| **Median Processing (ms)** | 20,139       | 11               | 9               |
+| **Max Request Time (ms)** | 22,513        | 29               | 16              |
+| **Failed Requests**    | 0                | 0                | 0               |

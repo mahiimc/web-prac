@@ -2,7 +2,7 @@ package com.imc.virtual.blocking;
 
 import com.imc.virtual.Comment;
 import com.imc.virtual.ReportUtils;
-import com.imc.virtual.client.CommentsClient;
+import com.imc.virtual.repo.CommentsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,11 +14,11 @@ import java.util.List;
 @Slf4j
 public class BlockingReportService {
 
-    private final CommentsClient commentsClient;
+    private final CommentsRepository commentsRepository;
 
 
     public void loadComments() {
-       List<Comment> commentList =  commentsClient.loadComments();
+       List<Comment> commentList =  commentsRepository.findAll();
        try {
            log.info("generating report for blocking process: {}", Thread.currentThread());
            ReportUtils.writeCommentsToCSV(commentList, "blocking");

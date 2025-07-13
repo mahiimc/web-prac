@@ -2,7 +2,7 @@ package com.imc.virtual.virtual;
 
 import com.imc.virtual.Comment;
 import com.imc.virtual.ReportUtils;
-import com.imc.virtual.client.CommentsClient;
+import com.imc.virtual.repo.CommentsRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -16,13 +16,13 @@ import java.util.concurrent.Executors;
 @Slf4j
 public class VirtualReportService {
 
-    private final CommentsClient commentsClient;
+    private final CommentsRepository commentsRepository;
 
     private final Executor executor = Executors.newVirtualThreadPerTaskExecutor();
 
     public void loadComments() {
         executor.execute(()-> {
-            List<Comment> commentList =  commentsClient.loadComments();
+            List<Comment> commentList =  commentsRepository.findAll();
             try {
                 log.info("generating report for  virtual process: {}", Thread.currentThread());
                 ReportUtils.writeCommentsToCSV(commentList, "virtual");
