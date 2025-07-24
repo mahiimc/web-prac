@@ -5,12 +5,13 @@ import com.proxy.service.UserService;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-@Cacheable
+//@Cacheable()
 @Service
 public class UserServiceImpl implements UserService {
 
+    @Cacheable("username")
     @Override
-    public String findUsername() {
+    public final  String findUsername() {
         return "Test Name";
     }
 }

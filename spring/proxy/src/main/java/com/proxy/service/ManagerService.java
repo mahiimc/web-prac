@@ -4,10 +4,11 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
-@Cacheable
+//@Cacheable
 public class ManagerService {
 
-    public String getManagerName() {
+    @Cacheable("managerName")
+    public final String getManagerName() {
         return "Manager";
     }
 }
