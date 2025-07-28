@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: cqrs-demo
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+
+  datasource:
+    write:
+      url: jdbc:postgresql://localhost:5432/postgres
+      username: postgres
+      password: password
+    read:
+      url: jdbc:postgresql://localhost:5433/postgres
+      username: postgres
+      password: password
+

@@ -1,0 +1,45 @@
+services:
+  db-master:
+    image: postgres:16
+    container_name: postgres-master
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./master/postgres.conf:/etc/postgresql/postgresql.conf
+      - ./master/pg_hba.conf:/etc/postgresql/pg_hba.conf
+      - db_master_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    command: >
+      postgres -c config_file=/etc/postgresql/postgresql.conf
+               -c hba_file=/etc/postgresql/pg_hba.conf
+
+  db-replica:
+    image: postgres:16
+    container_name: postgres-replica
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    depends_on:
+      - db-master
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_replica_data:/var/lib/postgresql/data
+    user: postgres
+    command: >
+      bash -c "
+        until pg_isready -h postgres-master -U postgres; do
+          echo 'Waiting for master to be ready...'; sleep 2;
+        done;
+        rm -rf /var/lib/postgresql/data/* &&
+        pg_basebackup -h postgres-master -U postgres -D /var/lib/postgresql/data -Fp -Xs -P -R &&
+        echo \"primary_conninfo = 'host=postgres-master port=5432 user=postgres password=password'\" >> /var/lib/postgresql/data/postgresql.conf &&
+        chown -R postgres:postgres /var/lib/postgresql/data &&
+        chmod 700 /var/lib/postgresql/data && 
+        postgres
+      "
+volumes:
+  db_master_data:
+  db_replica_data:
